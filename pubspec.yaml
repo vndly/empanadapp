@@ -1,0 +1,12 @@
+name: empanadas
+description: App to select empanadas to buy
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.12.3 <3.0.0'
+
+dependencies:
+  dafluta: ^2.9.0
+
+  flutter:
+    sdk: flutter
