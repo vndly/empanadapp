@@ -15,6 +15,7 @@ class ViewPeopleNames extends StatelessWidget {
       children: [
         Form(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               for (int i = 0; i < state.amountOfPeople; i++)
                 Padding(
@@ -83,6 +84,41 @@ class ViewPeopleNames extends StatelessWidget {
           ),
         ),
         const VBox(20),
+        const Text(
+          'Availability',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const VBox(20),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final String key in AppState.EMPANADAS.keys)
+              Padding(
+                padding: const EdgeInsets.all(3),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 200,
+                      child: Text(
+                        '($key) ${AppState.EMPANADAS[key]}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Checkbox(
+                        value: state.selectedEmpanadas[key],
+                        onChanged: (value) =>
+                            state.selectEmpanadaAvailability(key, value!)),
+                  ],
+                ),
+              ),
+          ],
+        ),
+        const VBox(20),
         ElevatedButton(
           onPressed: _onSubmit,
           child: const Padding(
@@ -129,8 +165,10 @@ class ViewPeopleNames extends StatelessWidget {
       }
     }
 
-    if (names.length == state.amountOfPeople) {
-      //state.setPlayersName(names);
+    if ((names.length == state.amountOfPeople) &&
+        (amounts.length == state.amountOfPeople) &&
+        (preferences.length == state.amountOfPeople)) {
+      state.submit(names, amounts, preferences);
     }
   }
 }

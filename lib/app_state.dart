@@ -17,6 +17,22 @@ class AppState with BaseState {
   final List<TextEditingController> controllersPeoplePreferences = [];
   List<String?> errorsPeoplePreferences = [];
 
+  final Map<String, bool> selectedEmpanadas = {};
+
+  static const EMPANADAS = {
+    'AT': 'Atún',
+    'BA': 'Bacalao',
+    'BE': 'Bechamel',
+    'CA': 'Carne',
+    'CE': 'Cebolla',
+    'CH': 'Chorizo',
+    'JA': 'Jamón',
+    'MA': 'Manzana',
+    'PO': 'Pollo',
+    'VE': 'Vegetariana',
+    'ES': 'Especial'
+  };
+
   bool get hasAmountPeople => amountOfPeople > 0;
 
   void setErrorAmountPeople(String value) {
@@ -42,6 +58,12 @@ class AppState with BaseState {
   void setAmountOfPeople(int value) {
     amountOfPeople = value;
 
+    selectedEmpanadas.clear();
+
+    for (final String key in EMPANADAS.keys) {
+      selectedEmpanadas[key] = false;
+    }
+
     controllersPeopleNames.clear();
     errorsPeopleNames.clear();
 
@@ -64,4 +86,15 @@ class AppState with BaseState {
 
     notify();
   }
+
+  void selectEmpanadaAvailability(String key, bool value) {
+    selectedEmpanadas[key] = value;
+    notify();
+  }
+
+  void submit(
+    List<String> names,
+    List<int> amounts,
+    List<String> preferences,
+  ) {}
 }
