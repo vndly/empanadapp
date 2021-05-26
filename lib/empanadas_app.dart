@@ -1,21 +1,15 @@
 import 'package:dafluta/dafluta.dart';
+import 'package:empanadas/view_people_names.dart';
 import 'package:flutter/material.dart';
-import 'package:empanadas/game_state.dart';
-import 'package:empanadas/screen_amount_players.dart';
-import 'package:empanadas/screen_match.dart';
-import 'package:empanadas/screen_players_name.dart';
-
-const int MAX_TURNS = 10;
+import 'package:empanadas/app_state.dart';
+import 'package:empanadas/view_amount_people.dart';
 
 class EmpanadasApp extends StatelessWidget {
-  final GameState state = GameState();
+  final AppState state = AppState();
 
   @override
   Widget build(BuildContext context) {
-    // TODO(momo): REMOVE
-    //state.test();
-
-    const int color = 0xff0493B1;
+    const int color = 0xffcd7023;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -36,22 +30,21 @@ class EmpanadasApp extends StatelessWidget {
           },
         ),
       ),
-      home: StateProvider<GameState>(
+      home: StateProvider<AppState>(
         state: state,
-        builder: _screen,
+        builder: (context, state) => Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ViewAmountPeople(state),
+                if (state.hasAmountPeople) ViewPeopleNames(state)
+              ],
+            ),
+          ),
+        ),
       ),
     );
-  }
-
-  Widget _screen(BuildContext context, GameState state) {
-    if (state.isSelectPlayersAmount) {
-      return SelectPlayersAmountScreen(state);
-    } else if (state.isEnterPlayersName) {
-      return EnterPlayersNameScreen(state);
-    } else if (state.isMatch) {
-      return MatchScreen(state);
-    } else {
-      return const Empty();
-    }
   }
 }
