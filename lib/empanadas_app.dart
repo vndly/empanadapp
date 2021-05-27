@@ -1,5 +1,6 @@
 import 'package:dafluta/dafluta.dart';
 import 'package:empanadas/view_people_names.dart';
+import 'package:empanadas/view_result.dart';
 import 'package:flutter/material.dart';
 import 'package:empanadas/app_state.dart';
 import 'package:empanadas/view_amount_people.dart';
@@ -41,7 +42,8 @@ class EmpanadasApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (!state.hasAmountPeople) ViewAmountPeople(state),
-                  if (state.hasAmountPeople) ViewPeopleNames(state)
+                  if (state.hasAmountPeople) ViewPeopleNames(state),
+                  if (state.hasOrder) ViewResult(state)
                 ],
               ),
             ),

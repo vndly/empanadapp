@@ -20,6 +20,9 @@ class AppState with BaseState {
 
   final Map<String, bool> selectedEmpanadas = {};
 
+  final Map<String, String> personsOrder = {};
+  final Map<String, int> finalOrder = {};
+
   static const EMPANADAS = {
     'AT': 'Atún',
     'BA': 'Bacalao',
@@ -35,6 +38,8 @@ class AppState with BaseState {
   };
 
   bool get hasAmountPeople => amountOfPeople > 0;
+
+  bool get hasOrder => personsOrder.isNotEmpty && finalOrder.isNotEmpty;
 
   void setErrorAmountPeople(String value) {
     errorAmountPeople = value;
@@ -105,7 +110,66 @@ class AppState with BaseState {
     if (availableEmpanadas.isEmpty) {
       return 'Select available empanadas';
     } else {
-      return '';
+      final String message = fillOrders(availableEmpanadas, persons);
+
+      if (message.isEmpty) {
+        personsOrder.clear();
+        personsOrder.addAll(getPersonsOrder(persons));
+
+        finalOrder.clear();
+        finalOrder.addAll(getFinalOrder(persons));
+
+        notify();
+      }
+
+      return message;
     }
+  }
+
+  String fillOrders(List<String> availableEmpanadas, List<Person> persons) {
+    for (final Person person in persons) {
+      person.order.clear();
+      int amount = person.amount;
+
+      for (final String preference in person.preferences) {
+        if ((amount > 0) && availableEmpanadas.contains(preference)) {
+          person.order.add(preference);
+          amount--;
+        }
+      }
+
+      if (amount > 0) {
+        return 'Cannot make order for ${person.name}';
+      }
+    }
+
+    return '';
+  }
+
+  Map<String, String> getPersonsOrder(List<Person> persons) {
+    final Map<String, String> personsOrder = {};
+
+    for (final Person person in persons) {
+      personsOrder[person.name] =
+          person.order.map((code) => EMPANADAS[code]).join('   ');
+    }
+
+    return personsOrder;
+  }
+
+  Map<String, int> getFinalOrder(List<Person> persons) {
+    final Map<String, int> finalOrder = {};
+
+    for (final Person person in persons) {
+      for (final String empanadaCode in person.order) {
+        if (finalOrder.containsKey(empanadaCode)) {
+          finalOrder[empanadaCode] = finalOrder[empanadaCode]! + 1;
+        } else {
+          finalOrder[empanadaCode] = 1;
+        }
+      }
+    }
+
+    return finalOrder;
   }
 }

@@ -86,14 +86,6 @@ class ViewPeopleNames extends StatelessWidget {
           ),
         ),
         const VBox(20),
-        const Text(
-          'Availability',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const VBox(20),
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
