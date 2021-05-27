@@ -12,6 +12,7 @@ class EmpanadasApp extends StatelessWidget {
     const int color = 0xffcd7023;
 
     return MaterialApp(
+      title: 'Empanadapp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: const MaterialColor(
@@ -34,13 +35,15 @@ class EmpanadasApp extends StatelessWidget {
         state: state,
         builder: (context, state) => Scaffold(
           body: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ViewAmountPeople(state),
-                if (state.hasAmountPeople) ViewPeopleNames(state)
-              ],
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (!state.hasAmountPeople) ViewAmountPeople(state),
+                  if (state.hasAmountPeople) ViewPeopleNames(state)
+                ],
+              ),
             ),
           ),
         ),

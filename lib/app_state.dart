@@ -1,4 +1,5 @@
 import 'package:dafluta/dafluta.dart';
+import 'package:empanadas/person.dart';
 import 'package:flutter/widgets.dart';
 
 class AppState with BaseState {
@@ -92,9 +93,19 @@ class AppState with BaseState {
     notify();
   }
 
-  void submit(
-    List<String> names,
-    List<int> amounts,
-    List<String> preferences,
-  ) {}
+  String submit(List<Person> persons) {
+    final List<String> availableEmpanadas = [];
+
+    for (final String key in selectedEmpanadas.keys) {
+      if (selectedEmpanadas[key]!) {
+        availableEmpanadas.add(key);
+      }
+    }
+
+    if (availableEmpanadas.isEmpty) {
+      return 'Select available empanadas';
+    } else {
+      return '';
+    }
+  }
 }

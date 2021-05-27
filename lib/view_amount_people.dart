@@ -49,7 +49,7 @@ class ViewAmountPeople extends StatelessWidget {
       try {
         final int amount = int.parse(value);
 
-        if (amount > 1) {
+        if (amount > 0) {
           state.setAmountOfPeople(amount);
         } else {
           state.setErrorAmountPeople('Invalid amount');
